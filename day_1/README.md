@@ -36,7 +36,7 @@ IAM permissions - identity and access management
 - private subnets normally used for databases, can't directly access the internet
 
 **Gateways:**
--facilitate communication with other networks
+- facilitate communication with other networks
 internet gateway
 NAT gateway
 

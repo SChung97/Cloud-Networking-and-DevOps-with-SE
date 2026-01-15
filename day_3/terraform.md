@@ -6,19 +6,6 @@
 - poor collaboration - doesn't align with devOps culture
 - poor version control (unless using launch templates) eg. if changing vpc slightly, must write a new guide
 
-# IaC
-
-- infrastructure as code
-  eg. Terraform
-- instead of using manual processes to set up infrastructure, use code instead
-- write a script to build the infrastructure for us, and run on AWS
-- codifying the creation, provisioning and configuration of infrastructure
-
-# orchestration vs config management
-
-- config management is the management of what is inside the framework eg. the software
-- orchestration is building the entire framework and setting up the utilities - the infrastructure itself
-
 # terraform
 
 - tools like terraform can be used during the orchestration process
@@ -31,7 +18,12 @@
 - modular
 - stepwise - shows you what went wrong
 - easy to use
-- open source
+- open source (ish) - now uses a business source licence
+- immutable 
+- uses hashicorp language (HCL) which is 1:1 convertible with json
+- expressive - not limited by the language
+- extendable - can use plugins
+- declarative, describe the end result you want (opposite is imperative - writing a step by step guide)
 
 - must link terraform to aws via AWS CLI using aws credentials
 - aws credentials are highly sensitive, so must be kept confidential unless you want to incur fines
@@ -52,6 +44,42 @@
 
 - run the command `aws sts get-caller-identity` to check the configuration has been set up properly
 
+**Configuring aws credentials without aws cli:**
+
+- create a .aws file within home directory
+- create a config file and a credentials file, both without extensions on the end
+- setup config file as follows:
+  [default]
+  region = eu-west-1
+  output = json
+
+- setup credentials file as follows (KEEP CONFIDENTIAL):
+ [default]
+ aws_access_key_id = ********
+ aws_secret_access_key = ********
+
+ **Checking terraform has access to aws:**
+ - create a main.tf file within a new terraform folder
+ - initialise the file with `terraform init`
+ - add the code below
+
+```
+provider "aws" {
+    region = "eu-west-1"
+}
+
+data "aws_caller_identity" "current" {}
+ 
+output "aws_account_id" {
+  value = data.aws_caller_identity.current.account_id
+}
+ 
+output "aws_user_arn" {
+  value = data.aws_caller_identity.current.arn
+}
+```
+- run the file using `terraform apply`
+
 # using terraform to create an EC2 instance on AWS
 
 - create a new folder to contain all terraform files
@@ -68,6 +96,7 @@ provider "aws" {
 - this will install all the dependencies/plugins required
 
 ```
+# what service?
 resource "aws_instance" "basic_instance" {
     # AMI ID
     ami = "ami-008b082bb4488df2b"
@@ -98,8 +127,19 @@ resource "aws_instance" "basic_instance" {
 - once satisfied with the script, run `terraform apply`
 - once completed, terraform will even supply the instance id, which can be used to check if it has been corrected on the aws website
 - to terminate the instance, run `terraform destroy`
+- any resources created within the main.tf file will be destroyed along with the instance (eg security groups)
 
 terraform.tfstate files are very sensitive, **Keep Confidential**
 
 - must add them to .gitignore files if tracking with git
-- add .terraform folder and terraform.lock.hcl file to .gitignore
+- add .terraform folder and terraform.lock.hcl file to .gitignore - .gitignore must be placed in root of the directory
+
+**.gitignore template:**
+```
+**/.terraform
+**/.terraform.lock.hcl
+**/terraform.tfstate
+**/terraform.tfstate.backup
+**/*.tfvars
+**/variables.tf
+```

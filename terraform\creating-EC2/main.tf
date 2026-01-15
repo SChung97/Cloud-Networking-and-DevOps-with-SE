@@ -1,19 +1,23 @@
+# Creating an EC2 instance
+
 provider "aws" {
-region = "eu-west-1
+  region = "eu-west-1"
 }
 
-resource "aws_instance" "basic_instance" {
-    # AMI Id
-    ami = "ami-008b082bb4488df2b"
+resource "aws_instance" "first_instance" {
+  # AMI Id
+  ami = "ami-049442a6cf8319180"
 
-    # what instance type?
-    instance_type = "t3.micro"
+  # what instance type?
+  instance_type = "t3.micro"
 
-    # add an auto-assigned public Id
-    associate_public_ip_address = true
+  # add an auto-assigned public IP
+  associate_public_ip_address = true
 
-    # name instance on aws
-    tags = {
-    Name = "se-steph-terraform-basic-instance"
-    }
+  # name instance on aws
+  tags = {
+    Name = "tech518-steph-terraform-basic-instance"
+  }
 }
+
+

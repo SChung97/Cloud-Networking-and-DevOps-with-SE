@@ -1,0 +1,14 @@
+1- What is a VPC and why use one?
+2- What is a subnet and what different types of subnets there are available? 
+3- What is a CIDR block?
+4- What does an internet gateway do?
+5- Upon setting up a VPC, why could the app instance communicate with the database when it is cordoned off in the private subnet?
+6- What improvement would you add to the VPC created yesterday? (bastion server)
+7- What might be a downside of implementing a custom VPC on AWS?
+8- Is VPC the same as creating a private cloud? (tenancy are you sharing the resources with anyone else?)
+
+
+Remember to dial back the answer conceptually, keep it simple and concise
+Use examples - e.g I did this
+
+
