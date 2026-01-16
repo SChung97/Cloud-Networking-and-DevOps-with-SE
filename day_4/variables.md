@@ -2,6 +2,7 @@
 
 - instead of hard coding, can be made dynamic using variables
 - create a new variables.tf file within the same initialised project
+- all variables.tf files should be added to .gitignore file, as it can contain sensitive information
 
 ```
 variable "instance_type" {

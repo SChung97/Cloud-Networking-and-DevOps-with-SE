@@ -34,3 +34,5 @@ resource "github_repository" "test_github_repo" {
   auto_init = true
 }
 ```
+
+- the code can be found within the main.tf file of terraform\creating_github_repo file
